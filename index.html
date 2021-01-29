@@ -52,20 +52,20 @@
             <div class="input-group f-class">
                 <div>
                     <label for="">First Class ($150)</label>
-                    <input class="inp-style inp-width" type="number" name="">
+                    <input id ="first-class-count" class="inp-style inp-width" type="number" name="" value = "0";>
                 </div>
-                    <button><span id = "" ><i class="fas fa-plus"></i></span></button>
-                    <button><span ><i class="fas fa-minus"></i></span></button>
+                <button><span onclick="handlePackageChange('first-class-count',true);"><i class="fas fa-plus"></i></span></button>
+                    <button><span onclick="handlePackageChange('first-class-count',false);"><i class="fas fa-minus"></i></span></button>
             </div>
             
             <div class="input-group f-class">
                 <div>
                     <label for="">Economy ($100)</label>
-                    <input class="inp-style inp-width" type="number" name="">
+                    <input id="economy-count" class="inp-style inp-width" type="number" name="" value="0">
                 </div>
                 <div class="plus-minus-btn">
-                    <button><span id = "" ><i class="fas fa-plus"></i></span></button>
-                    <button><span ><i class="fas fa-minus"></i></span></button>
+                    <button><span onclick="handlePackageChange('economy-count',true);" ><i class="fas fa-plus"></i></span></button>
+                    <button><span onclick="handlePackageChange('economy-count',false);"><i class="fas fa-minus"></i></span></button>
                 </div>
             </div>
             <div class="calculations">
@@ -74,7 +74,7 @@
                         <p>Subtotal</p>
                     </div>
                     <div class="right">
-                        <p>$500</p>
+                        <p>$<span id="total-cost">00</span></p>
                     </div>
                 </div>
 
@@ -83,7 +83,7 @@
                         <p>Charge 10% VAT</p>
                     </div>
                     <div class="right">
-                        <p>$50</p>
+                        <p>$<span id="tax-amount">0</span></p>
                     </div>
                 </div>
                 <hr>
@@ -92,7 +92,7 @@
                         <h4>Total</h4>
                     </div>
                     <div class="right">
-                        <p>$550</p>
+                        <p>$<span id="grand-total">00</span></p>
                     </div>
                 </div>
             </div>
@@ -105,6 +105,47 @@
         </div>
     </section>
 
+
+
+    <script>
+
+        function handlePackageChange(package,isIncrease){
+            const packageInput = document.getElementById(package);
+            const packageCount = parseInt(packageInput.value);
+
+            let packageNewCount = packageCount;
+            if(isIncrease == true){
+                packageNewCount = packageCount + 1;
+            }
+            if(isIncrease == false && packageCount > 0){
+                packageNewCount = packageCount - 1;
+            }
+            document.getElementById(package).value = packageNewCount;
+
+            budgetCalculator();
+        }
+        
+       function budgetCalculator(){
+
+            const firstClassCount = getInput("first-class-count")
+            const economyCount = getInput("economy-count");
+
+            const totalCost = firstClassCount * 150 + economyCount * 100;
+            document.getElementById("total-cost").innerText = totalCost;
+
+            const taxAmount = totalCost * 0.1;
+            document.getElementById("tax-amount").innerText = taxAmount;
+
+            const grandTotal = totalCost + taxAmount;
+            document.getElementById("grand-total").innerText = grandTotal;
+        }
+
+        function getInput(counter){
+             const packageInput = document.getElementById(counter);
+            const packageCount = parseInt(packageInput.value);
+            return packageCount;
+        }
+    </script>
     <!--Thank You-->
 </body>
 
